@@ -6,7 +6,7 @@
     "test": "npm run lint",
     "lint": "tslint --project server/tsconfig.json --format stylish",
     "dev": "concurrently \"tsc -w -p server\" \"nodemon dist/api.js\"",
-    "prod": "tsc -p server"
+    "build-prod": "tsc -p server"
   },
   "repository": "git+https://bitbucket.org/xaff/api.git",
   "keywords": [
