@@ -1,0 +1,11 @@
+{
+  "dbUrl": "mongodb://<username>:<password>@<server>:<ip>/<db>",
+  "sToken": "TOKEN",
+  "port": 3000,
+  "TELEGRAM_TOKEN": "",
+  "TELEGRAM_WEBHOOK": {
+    "URL": "",
+    "SECRET_PATH": "",
+    "MAXCONN": 40
+  }
+}
