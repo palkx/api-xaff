@@ -1,5 +1,5 @@
-import { request } from "request-promise";
-const { version } = require("../../../package.json");
+import * as request from 'request-promise';
+const { version } = require('../../../package.json');
 
 export default function TelegramBot(telegrafApp) {
   const me = this;
@@ -28,7 +28,7 @@ TelegramBot.prototype = {
       json: true
     });
     if (animeImage.length === 0) {
-      return ctx.reply('Oooppss. I am getting some error, sorry. I will fix it as fast as i can.')
+      return ctx.reply('Oooppss. I am getting some error, sorry. I will fix it as fast as i can.');
     }
     return ctx.replyWithPhoto({ url: animeImage[0].file_url});
   },
