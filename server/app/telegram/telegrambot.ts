@@ -30,7 +30,7 @@ TelegramBot.prototype = {
     if (animeImage.length === 0) {
       return ctx.reply('Oooppss. I am getting some error, sorry. I will fix it as fast as i can.');
     }
-    return ctx.replyWithMarkdown(`[ ](${animeImage[0].sample_url}) [Source](${animeImage[0].file_url})`);
+    return ctx.replyWithMarkdown(`[‌‌](${animeImage[0].sample_url}) [Source](${animeImage[0].file_url})`);
   },
   onMyIdCommand(ctx) {
     return ctx.reply(ctx.from.id);
