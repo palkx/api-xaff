@@ -9,7 +9,7 @@ export default function TelegramBot(telegrafApp) {
 
   telegrafApp.command('start', me.onStartCommand.bind(me));
   telegrafApp.command('cat', me.onCatCommand.bind(me));
-  telegrafApp.command('randAnime', me.onRandomAnimeCommand.bind(me));
+  telegrafApp.command('rAnime', me.onRandomAnimeCommand.bind(me));
   telegrafApp.command('myid', me.onMyIdCommand.bind(me));
 }
 
@@ -30,7 +30,7 @@ TelegramBot.prototype = {
     if (animeImage.length === 0) {
       return ctx.reply('Oooppss. I am getting some error, sorry. I will fix it as fast as i can.');
     }
-    return ctx.replyWithPhoto({ url: animeImage[0].file_url});
+    return ctx.replyWithHTML(`<a href="${animeImage[0].preview_url}">&#8205;</a> <a href="${animeImage[0].file_url}">Source</a>`);
   },
   onMyIdCommand(ctx) {
     return ctx.reply(ctx.from.id);
