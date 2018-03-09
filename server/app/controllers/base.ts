@@ -12,7 +12,11 @@ abstract class BaseCtrl {
         if (err) {
           return console.error(err);
         }
-        res.json(docs);
+        if (docs.length > 0) {
+          res.json(docs);
+        } else {
+          res.sendStatus(404);
+        }
       });
     }
   }
