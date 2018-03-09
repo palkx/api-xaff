@@ -9,7 +9,7 @@ export default function TelegramBot(telegrafApp) {
 
   telegrafApp.command('start', me.onStartCommand.bind(me));
   telegrafApp.command('cat', me.onCatCommand.bind(me));
-  telegrafApp.command('rAnime', me.onRandomAnimeCommand.bind(me));
+  telegrafApp.command('ranime', me.onRandomAnimeCommand.bind(me));
   telegrafApp.command('myid', me.onMyIdCommand.bind(me));
 }
 
