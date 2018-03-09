@@ -30,7 +30,7 @@ app.use(function(req, res, next) {
 
 /* TODO: add groups paths */
 
-mongoose.connect(config.dbUrl, { useMongoClient: true });
+mongoose.connect(config.dbUrl);
 const db = mongoose.connection;
 (<any>mongoose).Promise = global.Promise;
 
