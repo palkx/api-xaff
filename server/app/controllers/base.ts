@@ -4,7 +4,7 @@ abstract class BaseCtrl {
 
   // Get all
   getAll = (req, res) => {
-    this.model.find({}, (err, docs) => {
+    this.model.find({}).limit(5).exec( (err, docs) => {
       if (err) {
         return console.error(err);
       }
