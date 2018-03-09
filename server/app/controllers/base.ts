@@ -4,12 +4,21 @@ abstract class BaseCtrl {
 
   // Get all
   getAll = (req, res) => {
-    this.model.find({}).limit(5).exec( (err, docs) => {
-      if (err) {
-        return console.error(err);
-      }
-      res.json(docs);
-    });
+    const limit = Number(req.body.limit || req.query.limit || 10);
+    const skip = Number(req.body.page || req.query.page || 0) * limit;
+
+    if (limit >= 1 && skip >= 0) {
+      this.model.find({}).skip(skip).limit(limit).exec( (err, docs) => {
+        if (err) {
+          return console.error(err);
+        }
+        if (docs.length > 0) {
+          res.json(docs);
+        } else {
+          res.sendStatus(404);
+        }
+      });
+    }
   }
 
   // Count all
