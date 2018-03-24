@@ -58,6 +58,7 @@ typings/
 .env
 dev/
 config/*.json
+config/*.key
 dist/
 *.bat
 .idea/

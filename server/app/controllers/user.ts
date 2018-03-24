@@ -1,8 +1,9 @@
 import * as jwt from 'jsonwebtoken';
+import * as fs from 'fs';
 
 import User from '../models/user';
 import BaseCtrl from './base';
-const config = require('../../../config/config');
+const privateKey = fs.readFileSync(__dirname + '/../../../config/private.key');
 
 export default class UserCtrl extends BaseCtrl {
   model = User;
@@ -16,8 +17,13 @@ export default class UserCtrl extends BaseCtrl {
         if (!isMatch) {
           return res.sendStatus(403);
         }
-        const token = jwt.sign({ user: user }, config.sToken, { expiresIn: 24 * 60 * 60 }); // , { expiresIn: 10 } seconds
-        res.status(200).json({ token: token });
+        jwt.sign({ user: user }, privateKey, { algorithm: 'RS256', expiresIn: 24 * 60 * 60 }, (e, token) => {
+          if (e) {
+            console.log(e);
+            res.status(500);
+          }
+          res.status(200).json({ token: token });
+        });
       });
     });
   }
