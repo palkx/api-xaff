@@ -40,10 +40,10 @@ export default function setRoutes(app) {
   router.route('/users').post(userCtrl.insert);
 
   // YRV
-  router.route('/yrv/random').get(yrvCtrl.getRandom);
+  router.route('/yrvs/random').get(yrvCtrl.getRandom);
   router.route('/yrvs').get(yrvCtrl.getAll);
   router.route('/yrvs/count').get(yrvCtrl.count);
-  router.route('/yrv/id/:id').get(yrvCtrl.get);
+  router.route('/yrvs/id/:id').get(yrvCtrl.get);
 
   // User protected
   router.route('/users').get(checkAuth, userCtrl.getAll);
