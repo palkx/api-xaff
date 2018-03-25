@@ -1,8 +1,8 @@
 import * as express from 'express';
 import UserCtrl from './controllers/user';
 import YrvCtrl from './controllers/yrv';
-const config = require('../../config/config');
 import * as jwt from 'jsonwebtoken';
+import { publicKey } from '../api';
 
 export default function setRoutes(app) {
 
@@ -17,8 +17,9 @@ export default function setRoutes(app) {
     }
     const token = req.body.token || req.query.token || req.headers['x-auth-token'];
     if (token) {
-      jwt.verify(token, config.sToken, (err, decoded) => {
+      jwt.verify(token, publicKey, { algorithms: 'RS256' }, (err, decoded) => {
         if (err) {
+          console.log(err);
           return res.status(403).send({ message: 'Failed to auth your token' });
         } else {
           req.decoded = decoded;
@@ -35,8 +36,8 @@ export default function setRoutes(app) {
   });
 
   // Users
-  router.route('/user/login').post(userCtrl.login);
-  router.route('/user').post(userCtrl.insert);
+  router.route('/users/login').post(userCtrl.login);
+  router.route('/users').post(userCtrl.insert);
 
   // YRV
   router.route('/yrv/random').get(yrvCtrl.getRandom);
@@ -47,14 +48,14 @@ export default function setRoutes(app) {
   // User protected
   router.route('/users').get(checkAuth, userCtrl.getAll);
   router.route('/users/count').get(checkAuth, userCtrl.count);
-  router.route('/user/id/:id').get(checkAuth, userCtrl.get);
-  router.route('/user/id/:id').put(checkAuth, userCtrl.update);
-  router.route('/user/id/:id').delete(checkAuth, userCtrl.remove);
+  router.route('/users/id/:id').get(checkAuth, userCtrl.get);
+  router.route('/users/id/:id').put(checkAuth, userCtrl.update);
+  router.route('/users/id/:id').delete(checkAuth, userCtrl.remove);
 
   // YRV protected
-  router.route('/yrv').post(checkAuth, yrvCtrl.insert);
-  router.route('/yrv/id/:id').put(checkAuth, yrvCtrl.update);
-  router.route('/yrv/id/:id').delete(checkAuth, yrvCtrl.remove);
+  router.route('/yrvs').post(checkAuth, yrvCtrl.insert);
+  router.route('/yrvs/id/:id').put(checkAuth, yrvCtrl.update);
+  router.route('/yrvs/id/:id').delete(checkAuth, yrvCtrl.remove);
 
   // Apply prefix to app
   app.use('/', router);

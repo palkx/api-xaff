@@ -1,9 +1,8 @@
 import * as jwt from 'jsonwebtoken';
-import * as fs from 'fs';
 
 import User from '../models/user';
 import BaseCtrl from './base';
-const privateKey = fs.readFileSync(__dirname + '/../../../config/private.key');
+import { privateKey } from '../../api';
 
 export default class UserCtrl extends BaseCtrl {
   model = User;
