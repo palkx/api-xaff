@@ -3,15 +3,19 @@ import * as mongoose from 'mongoose';
 
 const yrvSchema = new mongoose.Schema({
   videoId: { type: String, unique: true, required: true },
+  friendlyName: { type: String, default: null },
   start: { type: Number, trim: true, default: 0 },
   end: { type: Number, trim: true, default: null },
+  views: {type: Number, trim: true, default: 0 },
   likes: { type: Number, default: 0 },
   dislikes: { type: Number, default: 0 },
   reports: { type: Number, default: 0 },
-  updated: { type: Date, default: Date.now() },
-  created: { type: Date, default: Date.now() },
-  creator: { type: String }
-});
+  changedBy: { type: String, default: null }
+},
+{timestamps: {
+  createdAt: 'created',
+  updatedAt: 'updated'
+}});
 
 const YRV = mongoose.model('YRV', yrvSchema);
 

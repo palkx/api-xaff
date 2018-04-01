@@ -3,12 +3,16 @@ import * as mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
+  name: { type: String },
   email: { type: String, unique: true, lowercase: true, trim: true, required: true },
   password: { type: String, required: true },
   roles: [ String ],
-  updated: { type: Date, default: Date.now() },
-  created: { type: Date, default: Date.now() }
-});
+  changedBy: { type: String, default: null }
+},
+{timestamps: {
+  createdAt: 'created',
+  updatedAt: 'updated'
+}});
 
 // Before saving the user, hash the password
 userSchema.pre('save', function(next) {
