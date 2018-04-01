@@ -5,7 +5,7 @@ abstract class BaseCtrl {
   // Get all
   getAll = (req, res) => {
     const limit = Number(req.body.limit || req.query.limit || 10);
-    const skip = Number(req.body.page || req.query.page || 0) * limit;
+    const skip = Number(req.body.page - 1 || req.query.page - 1 || 0) * limit;
 
     if (limit >= 1 && skip >= 0) {
       this.model.find({}).skip(skip).limit(limit).exec( (err, docs) => {
