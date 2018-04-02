@@ -16,7 +16,7 @@ export default class UserCtrl extends BaseCtrl {
         if (!isMatch) {
           return res.sendStatus(403);
         }
-        jwt.sign({ user: user }, privateKey, { algorithm: 'RS256', expiresIn: 24 * 60 * 60 }, (e, token) => {
+        jwt.sign({ user: user }, privateKey, { algorithm: 'RS256', expiresIn: 7 * 24 * 60 * 60 }, (e, token) => {
           if (e) {
             console.log(e);
             res.status(500);
