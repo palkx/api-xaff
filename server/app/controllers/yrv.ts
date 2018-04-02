@@ -12,7 +12,13 @@ export default class YrvCtrl extends BaseCtrl {
       }
       const rand = Math.floor(Math.random() * count);
       this.model.findOne().skip(rand).then(yrv => {
-        res.status(200).json(yrv);
+        this.model.findOneAndUpdate({ _id: yrv._id }, {$inc : {'views' : 1}}, (error) => {
+          if (!error) {
+            res.status(200).json(yrv);
+          } else {
+            res.sendStatus(500);
+          }
+        });
       });
     });
   }
