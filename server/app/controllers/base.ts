@@ -8,7 +8,7 @@ abstract class BaseCtrl {
     const skip = Number(req.body.page - 1 || req.query.page - 1 || 0) * limit;
 
     if (limit >= 1 && skip >= 0) {
-      this.model.find({}).skip(skip).limit(limit).exec( (err, docs) => {
+      this.model.find({}).sort({ created: -1 }).skip(skip).limit(limit).exec( (err, docs) => {
         if (err) {
           return console.error(err);
         }
