@@ -19,6 +19,9 @@ export default function setRoutes(app) {
     if (token) {
       jwt.verify(token, publicKey, { algorithms: 'RS256' }, (err, decoded) => {
         if (err) {
+          if (err.message === 'jwt expired') {
+            return res.status(403).send({ message: 'Sorry, your token is expired.' });
+          }
           console.log(err);
           return res.status(403).send({ message: 'Failed to auth your token' });
         } else {
@@ -47,6 +50,7 @@ export default function setRoutes(app) {
 
   // User protected
   router.route('/users').get(checkAuth, userCtrl.getAll);
+  router.route('/users/updtoken').get(checkAuth, userCtrl.updateToken);
   router.route('/users/count').get(checkAuth, userCtrl.count);
   router.route('/users/id/:id').get(checkAuth, userCtrl.get);
   router.route('/users/id/:id').put(checkAuth, userCtrl.update);
