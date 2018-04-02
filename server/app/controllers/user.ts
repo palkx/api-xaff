@@ -28,8 +28,7 @@ export default class UserCtrl extends BaseCtrl {
   }
 
   updateToken = (req, res) => {
-    console.log(req.decoded);
-    jwt.sign( req.decoded.user, privateKey, { algorithm: 'RS256', expiresIn: 7 * 24 * 60 * 60 }, (e, token) => {
+    jwt.sign({ user: req.decoded.user }, privateKey, { algorithm: 'RS256', expiresIn: 7 * 24 * 60 * 60 }, (e, token) => {
       if (e) {
         console.log(e);
         res.status(500);
