@@ -3,6 +3,7 @@ import UserCtrl from './controllers/user';
 import YrvCtrl from './controllers/yrv';
 import * as jwt from 'jsonwebtoken';
 import { publicKey } from '../api';
+const { version } = require('../../package.json');
 
 export default function setRoutes(app) {
 
@@ -12,9 +13,6 @@ export default function setRoutes(app) {
   const yrvCtrl = new YrvCtrl();
 
   const checkAuth = ((req, res, next) => {
-    if (req.method === 'OPTIONS') {
-      return res.sendStatus(204);
-    }
     const token = req.body.token || req.query.token || req.headers['x-auth-token'];
     if (token) {
       jwt.verify(token, publicKey, { algorithms: 'RS256' }, (err, decoded) => {
@@ -34,9 +32,16 @@ export default function setRoutes(app) {
     }
   });
 
+  const versionReq = ((req, res) => {
+    return res.status(200).send({ version: version });
+  });
+
   router.route('/').get(function (req, res) {
     res.redirect('docs');
   });
+
+  // Utils
+  router.route('/api/v').get(versionReq);
 
   // Users
   router.route('/users/login').post(userCtrl.login);
