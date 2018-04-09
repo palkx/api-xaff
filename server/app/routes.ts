@@ -23,8 +23,16 @@ export default function setRoutes(app) {
           console.log(err);
           return res.status(403).send({ message: 'Failed to auth your token' });
         } else {
-          req.decoded = decoded;
-          next();
+          userCtrl.model.findOne({ _id: decoded.user._id }, (error, obj) => {
+            if (error || !obj) {
+              res.status(403).send({ message: 'User does not exist' });
+              console.log(error);
+            } else {
+              obj.password = undefined;
+              req.decoded = { user: obj };
+              next();
+            }
+          });
         }
       });
     } else {

@@ -49,8 +49,9 @@ abstract class BaseCtrl {
   // Get by id
   get = (req, res) => {
     this.model.findOne({ _id: req.params.id }, (err, obj) => {
-      if (err) {
-        return console.error(err);
+      if (err || !obj) {
+        console.error(err);
+        res.sendStatus(404);
       }
       res.json(obj);
     });

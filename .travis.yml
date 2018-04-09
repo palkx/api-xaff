@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '8'
+  - '9'
 dist: trusty
 cache:
   directories:
@@ -29,5 +29,5 @@ jobs:
 stages:
   - test
   - name: deploy
-    if: branch = master
+    if: branch = production
 script: skip
