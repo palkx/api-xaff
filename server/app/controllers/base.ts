@@ -37,10 +37,10 @@ abstract class BaseCtrl {
     obj.save((err, item) => {
       // 11000 is the code for duplicate key error
       if (err && err.code === 11000) {
-        res.sendStatus(400);
+        res.send(401).json({ message: 'Duplicated item' });
       }
       if (err) {
-        return console.error(err);
+        res.sendStatus(400);
       }
       res.status(200).json(item);
     });
