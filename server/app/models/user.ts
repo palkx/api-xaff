@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
   name: { type: String },
   email: { type: String, unique: true, lowercase: true, trim: true, required: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true, select: false },
   roles: [ String ],
   changedBy: { type: String, default: null }
 },
@@ -63,12 +63,12 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
 };
 
 // Omit the password when returning a user
-userSchema.set('toJSON', {
-  transform: function (doc, ret) {
+/*userSchema.set('toJSON', {
+  /*transform: function (doc, ret) {
     delete ret.password;
     return ret;
   }
-});
+});*/
 
 const User = mongoose.model('User', userSchema);
 

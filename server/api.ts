@@ -55,4 +55,5 @@ export { app };
 
 /*
   TODO:
+  prepare to move on github
 */
