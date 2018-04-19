@@ -3,6 +3,7 @@ import UserCtrl from './controllers/user';
 import YrvCtrl from './controllers/yrv';
 import * as jwt from 'jsonwebtoken';
 import { publicKey } from '../api';
+import * as RateLimit from 'express-rate-limit';
 const { version } = require('../../package.json');
 
 export default function setRoutes(app) {
@@ -44,22 +45,39 @@ export default function setRoutes(app) {
     return res.status(200).send({ version: version });
   });
 
+  app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS if you use an ELB, custom Nginx setup, etc)
+
+  const defaultPublicRateLimiter = new RateLimit({
+    windowMs: 5 * 60 * 1000, // 5 min
+    delayAfter: 190, // slowing down after 190 requests
+    delayMs: 1000, // slow down every request by 1s
+    max: 200 // blocking after 200 requests
+  });
+
+  const defaultUserRateLimiter = new RateLimit({
+    windowMs: 15 * 60 * 1000, // 15 min
+    delayAfter: 15, // slowing down after 15 requests
+    delayMs: 2 * 1000, // slow down every request by 2s
+    max: 20 // blocking after 20 requests
+  });
+
   router.route('/').get(function (req, res) {
     res.redirect('docs');
   });
 
   // Utils
-  router.route('/api/v').get(versionReq);
+  router.route('/api/v').get(defaultPublicRateLimiter, versionReq);
 
   // Users
-  router.route('/users/login').post(userCtrl.login);
-  router.route('/users').post(userCtrl.insert);
+  router.route('/users/login').post(defaultUserRateLimiter, userCtrl.login);
+  router.route('/users').post(defaultUserRateLimiter, userCtrl.insert);
 
   // YRV
-  router.route('/yrvs/random').get(yrvCtrl.getRandom);
-  router.route('/yrvs').get(yrvCtrl.getAll);
-  router.route('/yrvs/count').get(yrvCtrl.count);
-  router.route('/yrvs/id/:id').get(yrvCtrl.get);
+  router.route('/yrvs/random').get(defaultPublicRateLimiter, yrvCtrl.getRandom);
+  router.route('/yrvs').get(defaultPublicRateLimiter, yrvCtrl.getAll);
+  router.route('/yrvs/count').get(defaultPublicRateLimiter, yrvCtrl.count);
+  router.route('/yrvs/id/:id').get(defaultPublicRateLimiter, yrvCtrl.get);
+  router.route('/yrvs/id/:id/viewed').get(defaultPublicRateLimiter, yrvCtrl.viewed);
 
   // User protected
   router.route('/users').get(checkAuth, userCtrl.getAll);

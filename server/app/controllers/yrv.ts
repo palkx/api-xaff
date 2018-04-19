@@ -13,13 +13,7 @@ export default class YrvCtrl extends BaseCtrl {
         }
         const rand = Math.floor(Math.random() * count);
         this.model.findOne().skip(rand).then(yrv => {
-          this.model.findOneAndUpdate({ _id: yrv._id, }, {$inc : {'views' : 1}}, (error) => {
-            if (!error) {
-              res.status(200).json(yrv);
-            } else {
-              res.sendStatus(500);
-            }
-          });
+          res.status(200).json(yrv);
         });
       });
     } else {
@@ -29,15 +23,23 @@ export default class YrvCtrl extends BaseCtrl {
         }
         const rand = Math.floor(Math.random() * count);
         this.model.findOne({ disabled: false }).skip(rand).then(yrv => {
-          this.model.findOneAndUpdate({ _id: yrv._id, }, {$inc : {'views' : 1}}, (error) => {
-            if (!error) {
-              res.status(200).json(yrv);
-            } else {
-              res.sendStatus(500);
-            }
-          });
+          res.status(200).json(yrv);
         });
       });
+    }
+  }
+
+  viewed = (req, res) => {
+    if (req.params.id) {
+      this.model.findOneAndUpdate({ _id: req.params.id, }, {$inc : {'views' : 1}}, (error) => {
+        if (!error) {
+          res.sendStatus(200);
+        } else {
+          res.sendStatus(500);
+        }
+      });
+    } else {
+      res.sendStatus(400);
     }
   }
 }

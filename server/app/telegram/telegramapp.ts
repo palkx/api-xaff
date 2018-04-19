@@ -7,6 +7,6 @@ telegrafApp.telegram.getMe().then((botInfo) => {
   telegrafApp.options.username = botInfo.username;
 });
 
-// telegrafApp.telegram.setWebhook(config.TELEGRAM_WEBHOOK.URL + '/' + config.TELEGRAM_WEBHOOK.SECRET_PATH, config.TELEGRAM_WEBHOOK.MAXCONN);
+telegrafApp.telegram.setWebhook(config.TELEGRAM_WEBHOOK.URL + '/' + config.TELEGRAM_WEBHOOK.SECRET_PATH, config.TELEGRAM_WEBHOOK.MAXCONN);
 
 export default telegrafApp;
