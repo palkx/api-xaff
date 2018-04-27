@@ -1,33 +1,34 @@
 language: node_js
 node_js:
-  - '9'
+- '9'
 dist: trusty
+sudo: false
 cache:
+  yarn: true
   directories:
-    - node_modules
-sudo: required
+  - node_modules
 addons:
   apt:
     sources:
-      - git-core
-      - ubuntu-toolchain-r-test
+    - git-core
     packages:
-      - git
-      - g++-4.9
-env:
-  - CXX=g++-4.9
+    - git
+  ssh_known_hosts:
+    secure: "MwyxBSHLr8oUDIdKi8ZX2LvRot1o4RwwRitBFU4NGYVY27EQ1WMay/HMCYuXWY6S3rdLyGZv9n0dO7KI1sYTDcoPQqQ4FofZ7SPuKmJgh+7br2xW1W+h0mHAhQmPSAq0PBxw06rMavZNCt/k6HZ7D8HEGWbVaj4KBY2hkCeIoyofzAWiwbR6Nv2Cp8Vn9HjAwHv1+LzJhyTgg5Tv0uN28kpKe5jhG027WRERkgPMpkhrKV8jZsbLQRdfZRBzaPK1Ju/zojUZnITnwm2yJW/qx2tXdrXiyndmNenqyzqv2PKy8KyIJE6t4V0HGv+ZXYYIZ818arVYrzsiPSLnJhBj4570yPvqNPdO1FIl9TbQijghOPtw6dMnUIlNfOT3IqMv+uePWg3Q0MD8dY+CXMUZwPqQg7PLg2KSNmYb9z9K7y86ZmzpMEv84eGCIb+qXBurkpSAxRTxEQSo9KlLrY8SH1taCy0Bs2ihRXfD0L1J+EETcaG9tt1NuBkZ5LzegAiODYfLt/GGNKe5esAN1CEk0syRXe2052w9rz7SaFX03ORF6Ae+2B8EJQP3QFaWL8S9B39pNyRg+i8pk4AsCDdcIOz74lfHxmXAsT/0w9Cd+EmoGVsgYVgSmgQG0foBNsVX89cmtV+tbqwn0+Exu/cpjXG8oXmAZV4eyKG1YMunK70="
 before_install:
-  - sudo apt-get update
-  - npm explore npm -g -- npm install node-gyp@latest
-install: npm install
+  - openssl aes-256-cbc -K $encrypted_37c27dd654e5_key -iv $encrypted_37c27dd654e5_iv -in .travis/id_rsa.enc -out .travis/id_rsa -d
+  - openssl aes-256-cbc -K $encrypted_37c27dd654e5_key -iv $encrypted_37c27dd654e5_iv -in config/private.enc -out config/private.key -d
+  - openssl aes-256-cbc -K $encrypted_37c27dd654e5_key -iv $encrypted_37c27dd654e5_iv -in config/public.enc -out config/public.key -d
+  - openssl aes-256-cbc -K $encrypted_37c27dd654e5_key -iv $encrypted_37c27dd654e5_iv -in config/config.enc -out config/config.json -d
+install: skip
 jobs:
   include:
-    - stage: test
-      script: bash ./ci/test.sh
-    - stage: deploy
-      script: bash ./ci/deploy.sh
+  - stage: test
+    script: bash ./.travis/test.sh
+  - stage: deploy
+    script: bash ./.travis/deploy.sh
 stages:
-  - test
-  - name: deploy
-    if: branch = production
+- test
+- name: deploy
+  if: "(branch = production) AND (type != pull_request)"
 script: skip

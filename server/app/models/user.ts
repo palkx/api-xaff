@@ -1,5 +1,5 @@
-import * as bcrypt from 'bcryptjs';
-import * as mongoose from 'mongoose';
+import * as bcrypt from "bcryptjs";
+import * as mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
@@ -7,34 +7,33 @@ const userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true, trim: true, required: true },
   password: { type: String, required: true, select: false },
   roles: [ String ],
-  changedBy: { type: String, default: null }
+  changedBy: { type: String, default: undefined }
 },
 {timestamps: {
-  createdAt: 'created',
-  updatedAt: 'updated'
+  createdAt: "created",
+  updatedAt: "updated"
 }});
 
 // Before saving the user, hash the password
-userSchema.pre('save', function(next) {
-  const user = this;
-  if (!user.isModified('password')) {
+userSchema.pre("save", function(next) {
+  if (!this.isModified("password")) {
     return next();
   }
   bcrypt.genSalt(10, function (err, salt) {
     if (err) {
       return next(err);
     }
-    bcrypt.hash(user.password, salt, function (error, hash) {
+    bcrypt.hash(this.password, salt, function (error, hash) {
       if (error) {
         return next(error);
       }
-      user.password = hash;
+      this.password = hash;
       next();
     });
   });
 });
 
-userSchema.pre('findOneAndUpdate', function(next) {
+userSchema.pre("findOneAndUpdate", function(next) {
   const user = this.getUpdate();
   if (!user.password) {
     return next();
@@ -54,11 +53,11 @@ userSchema.pre('findOneAndUpdate', function(next) {
 });
 
 userSchema.methods.comparePassword = function(candidatePassword, callback) {
-  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     if (err) {
       return callback(err);
     }
-    callback(null, isMatch);
+    callback(undefined, isMatch);
   });
 };
 
@@ -70,6 +69,6 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
   }
 });*/
 
-const User = mongoose.model('User', userSchema);
+const USER = mongoose.model("User", userSchema);
 
-export default User;
+export default USER;

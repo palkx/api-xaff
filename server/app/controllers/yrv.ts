@@ -1,6 +1,6 @@
-import * as jwt from 'jsonwebtoken';
-import YRV from '../models/yrv';
-import BaseCtrl from './base';
+import * as jwt from "jsonwebtoken";
+import YRV from "../models/yrv";
+import BaseCtrl from "./base";
 
 export default class YrvCtrl extends BaseCtrl {
   model = YRV;
@@ -31,7 +31,7 @@ export default class YrvCtrl extends BaseCtrl {
 
   viewed = (req, res) => {
     if (req.params.id) {
-      this.model.findOneAndUpdate({ _id: req.params.id, }, {$inc : {'views' : 1}}, (error) => {
+      this.model.findOneAndUpdate({ _id: req.params.id, }, {$inc : {views : 1}}, (error) => {
         if (!error) {
           res.sendStatus(200);
         } else {

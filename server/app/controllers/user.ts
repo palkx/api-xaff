@@ -1,15 +1,15 @@
-import * as jwt from 'jsonwebtoken';
+import * as jwt from "jsonwebtoken";
 
-import User from '../models/user';
-import BaseCtrl from './base';
-import { privateKey } from '../../api';
+import User from "../models/user";
+import BaseCtrl from "./base";
+import { privateKey } from "../../api";
 
 export default class UserCtrl extends BaseCtrl {
   model = User;
 
   login = (req, res) => {
     if (req.body.email && req.body.password) {
-      this.model.findOne({ email: req.body.email }).select('+password').exec((err, user) => {
+      this.model.findOne({ email: req.body.email }).select("+password").exec((err, user) => {
         if (!user) {
           return res.sendStatus(403);
         }
@@ -17,12 +17,12 @@ export default class UserCtrl extends BaseCtrl {
           if (!isMatch) {
             return res.sendStatus(403);
           }
-          jwt.sign({ user: user }, privateKey, { algorithm: 'RS256', expiresIn: 7 * 24 * 60 * 60 }, (e, token) => {
+          jwt.sign({ user }, privateKey, { algorithm: "RS256", expiresIn: 7 * 24 * 60 * 60 }, (e, token) => {
             if (e) {
               console.log(e);
               res.status(500);
             }
-            res.status(200).json({ token: token });
+            res.status(200).json({ token });
           });
         });
       });
@@ -32,12 +32,12 @@ export default class UserCtrl extends BaseCtrl {
   }
 
   updateToken = (req, res) => {
-    jwt.sign({ user: req.decoded.user }, privateKey, { algorithm: 'RS256', expiresIn: 7 * 24 * 60 * 60 }, (e, token) => {
+    jwt.sign({ user: req.decoded.user }, privateKey, { algorithm: "RS256", expiresIn: 7 * 24 * 60 * 60 }, (e, token) => {
       if (e) {
         console.log(e);
         res.status(500);
       }
-      res.status(200).json({ token: token });
+      res.status(200).json({ token });
     });
   }
 }
