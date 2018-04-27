@@ -56,4 +56,5 @@ export { app };
 /*
   TODO:
   prepare to move on github
+  add models: forms, permissions, roles
 */
