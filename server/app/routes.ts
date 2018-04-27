@@ -16,7 +16,7 @@ export default function setRoutes(app) {
   const checkAuth = ((req, res, next) => {
     const token = req.body.token || req.query.token || req.headers["x-auth-token"];
     if (token) {
-      jwt.verify(token, publicKey, { algorithms: "RS256" }, (err, decoded) => {
+      jwt.verify(token, publicKey, (err, decoded) => {
         if (err) {
           if (err.message === "jwt expired") {
             return res.status(403).send({ message: "Sorry, your token is expired." });
@@ -29,7 +29,6 @@ export default function setRoutes(app) {
               res.status(403).send({ message: "User does not exist" });
               console.log(error);
             } else {
-              obj.password = undefined;
               req.decoded = { user: obj };
               next();
             }
@@ -80,11 +79,11 @@ export default function setRoutes(app) {
   router.route("/yrvs/id/:id/viewed").get(defaultPublicRateLimiter, yrvCtrl.viewed);
 
   // User protected
-  router.route("/users").get(checkAuth, userCtrl.getAll);
+  router.route("/users").get(userCtrl.getAll);
   router.route("/users/updtoken").get(checkAuth, userCtrl.updateToken);
   router.route("/users/count").get(checkAuth, userCtrl.count);
   router.route("/users/id/:id").get(checkAuth, userCtrl.get);
-  router.route("/users/id/:id").put(checkAuth, userCtrl.update);
+  router.route("/users/id/:id").put(userCtrl.update);
   router.route("/users/id/:id").delete(checkAuth, userCtrl.remove);
 
   // YRV protected

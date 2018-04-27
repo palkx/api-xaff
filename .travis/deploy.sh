@@ -14,7 +14,7 @@ ssh deploy@$IP -p $PORT <<EOF
   git clone -b production https://github.com/iSm1le/api-xaff.git .
   yarn
   yarn run build-prod
-  rm -rf $DEPLOY_DIR/*
-  cp -R dist/* $DEPLOY_DIR/
+  rm -rf $DEPLOY_DIR/dist/*
+  cp -R -f * $DEPLOY_DIR/
   pm2 restart api
 EOF
