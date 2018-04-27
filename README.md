@@ -6,3 +6,5 @@
 [![bitHound Overall Score](https://www.bithound.io/github/iSm1le/api-xaff/badges/score.svg)](https://www.bithound.io/github/iSm1le/api-xaff)
 [![bitHound Dependencies](https://www.bithound.io/github/iSm1le/api-xaff/badges/dependencies.svg)](https://www.bithound.io/github/iSm1le/api-xaff/master/dependencies/npm)
 [![Build Status](https://travis-ci.org/iSm1le/api-xaff.svg?branch=production)](https://travis-ci.org/iSm1le/api-xaff)
+
+> Created and maintained by [iSm1le](https://github.com/iSm1le)
