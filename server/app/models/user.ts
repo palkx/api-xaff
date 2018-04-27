@@ -1,7 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import * as mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const userSchema: mongoose.Schema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
   name: { type: String },
   email: { type: String, unique: true, lowercase: true, trim: true, required: true },
@@ -52,8 +52,9 @@ userSchema.pre("findOneAndUpdate", function(next) {
   });
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, callback) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+userSchema.methods.comparePassword = (candidatePassword, password, callback) => {
+  bcrypt.compare(candidatePassword, password, (err, isMatch) => {
+    console.log(candidatePassword + "/" + password);
     if (err) {
       return callback(err);
     }
@@ -69,6 +70,6 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
   }
 });*/
 
-const USER = mongoose.model("User", userSchema);
+const user = mongoose.model("user", userSchema);
 
-export default USER;
+export default user;

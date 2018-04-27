@@ -1,11 +1,11 @@
 import * as jwt from "jsonwebtoken";
 
-import User from "../models/user";
+import user from "../models/user";
 import BaseCtrl from "./base";
 import { privateKey } from "../../api";
 
 export default class UserCtrl extends BaseCtrl {
-  model = User;
+  model = user;
 
   login = (req, res) => {
     if (req.body.email && req.body.password) {
@@ -13,7 +13,7 @@ export default class UserCtrl extends BaseCtrl {
         if (!user) {
           return res.sendStatus(403);
         }
-        user.comparePassword(req.body.password, (error, isMatch) => {
+        user.schema.methods.comparePassword(req.body.password, user.password, (error, isMatch) => {
           if (!isMatch) {
             return res.sendStatus(403);
           }
