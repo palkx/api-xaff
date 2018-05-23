@@ -5,7 +5,7 @@ import * as mongoose from "mongoose";
 import * as fs from "fs";
 import TelegrafApp from "./app/telegram/telegramapp";
 import TelegramBot from "./app/telegram/telegrambot";
-const config = require("../config/config_local.json");
+const config = require("../config/config.json");
 export const privateKey = fs.readFileSync(__dirname + "/../config/private.key");
 export const publicKey = fs.readFileSync(__dirname + "/../config/public.key");
 
