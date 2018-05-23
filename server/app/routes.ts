@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as request from "request-promise";
 import UserCtrl from "./controllers/user";
 import YrvCtrl from "./controllers/yrv";
 import * as jwt from "jsonwebtoken";
@@ -44,6 +45,20 @@ export default function setRoutes(app) {
     return res.status(200).send({ version });
   });
 
+  const sslTest = (async (req, res) => {
+    const host = req.query.host;
+    const protocol = req.query.protocol;
+    if (!host || !protocol) {
+      return res.sendStatus(400);
+    }
+    const sslTestResponse = await request({
+      uri: `https://api.ssllabs.com/api/v3/analyze?host=${host}&maxAge=12`,
+      headers: {"User-Agent": `XaFF Api v${version} (https://github.com/iSm1le/api-xaff/)` },
+      json: true
+    });
+    return res.status(200).send({ sslTestResponse });
+  });
+
   app.enable("trust proxy"); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS if you use an ELB, custom Nginx setup, etc)
 
   const defaultPublicRateLimiter = new RateLimit({
@@ -66,6 +81,7 @@ export default function setRoutes(app) {
 
   // Utils
   router.route("/api/v").get(defaultPublicRateLimiter, versionReq);
+  router.route("/api/ssltest").get(sslTest);
 
   // Users
   router.route("/users/login").post(defaultUserRateLimiter, userCtrl.login);
