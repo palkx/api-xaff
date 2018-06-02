@@ -3,7 +3,7 @@ import * as express from "express";
 import * as morgan from "morgan";
 import * as mongoose from "mongoose";
 import * as fs from "fs";
-const config = require("../config/config_local.json");
+const config = require("../config/config.json");
 export const privateKey = fs.readFileSync(__dirname + "/../config/private.key");
 export const publicKey = fs.readFileSync(__dirname + "/../config/public.key");
 
