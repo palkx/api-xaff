@@ -45,6 +45,7 @@ export default function setRoutes(app) {
     return res.status(200).send({ version });
   });
 
+  /* Not used anymore
   const sslTest = (async (req, res) => {
     const host = req.query.host;
     const protocol = req.query.protocol;
@@ -58,6 +59,7 @@ export default function setRoutes(app) {
     });
     return res.status(200).send({ sslTestResponse });
   });
+  */
 
   app.enable("trust proxy"); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS if you use an ELB, custom Nginx setup, etc)
 
@@ -81,7 +83,7 @@ export default function setRoutes(app) {
 
   // Utils
   router.route("/api/v").get(defaultPublicRateLimiter, versionReq);
-  router.route("/api/ssltest").get(sslTest);
+  // router.route("/api/ssltest").get(sslTest); // Not used anymore
 
   // Users
   router.route("/users/login").post(defaultUserRateLimiter, userCtrl.login);
@@ -93,6 +95,8 @@ export default function setRoutes(app) {
   router.route("/yrvs/count").get(defaultPublicRateLimiter, yrvCtrl.count);
   router.route("/yrvs/id/:id").get(defaultPublicRateLimiter, yrvCtrl.get);
   router.route("/yrvs/id/:id/viewed").get(defaultPublicRateLimiter, yrvCtrl.viewed);
+  router.route("/yrvs/vid/:id").get(defaultPublicRateLimiter, yrvCtrl.vGet);
+  router.route("/yrvs/vid/:id/viewed").get(defaultPublicRateLimiter, yrvCtrl.viewed);
 
   // User protected
   router.route("/users").get(userCtrl.getAll);
@@ -106,6 +110,8 @@ export default function setRoutes(app) {
   router.route("/yrvs").post(checkAuth, yrvCtrl.insert);
   router.route("/yrvs/id/:id").put(checkAuth, yrvCtrl.update);
   router.route("/yrvs/id/:id").delete(checkAuth, yrvCtrl.remove);
+  router.route("/yrvs/vid/:id").put(checkAuth, yrvCtrl.vUpdate);
+  router.route("/yrvs/vid/:id").delete(checkAuth, yrvCtrl.vRemove);
 
   // Apply prefix to app
   app.use("/", router);

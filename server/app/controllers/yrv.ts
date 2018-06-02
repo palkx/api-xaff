@@ -31,15 +31,59 @@ export default class YrvCtrl extends BaseCtrl {
 
   viewed = (req, res) => {
     if (req.params.id) {
-      this.model.findOneAndUpdate({ _id: req.params.id, }, {$inc : {views : 1}}, (error) => {
-        if (!error) {
-          res.sendStatus(200);
-        } else {
-          res.sendStatus(500);
-        }
-      });
+      if (req.params.id.length === 11) {
+        this.model.findOneAndUpdate({ videoId: req.params.id, }, {$inc : {views : 1}}, (error) => {
+          if (!error) {
+            res.sendStatus(200);
+          } else {
+            res.sendStatus(500);
+          }
+        });
+      } else {
+        this.model.findOneAndUpdate({ _id: req.params.id, }, {$inc : {views : 1}}, (error) => {
+          if (!error) {
+            res.sendStatus(200);
+          } else {
+            res.sendStatus(500);
+          }
+        });
+      }
     } else {
       res.sendStatus(400);
     }
+  }
+
+  // Get by id
+  vGet = (req, res) => {
+    this.model.findOne({ videoId: req.params.id }, (err, obj) => {
+      if (err || !obj) {
+        console.error(err);
+        res.sendStatus(404);
+      } else {
+        res.status(200).json(obj);
+      }
+    });
+  }
+
+  // Update by id
+  vUpdate = (req, res) => {
+    this.model.findOneAndUpdate({ videoId: req.params.id }, req.body, (err) => {
+      if (err) {
+        return console.error(err);
+      } else {
+        res.sendStatus(200);
+      }
+    });
+  }
+
+  // Delete by id
+  vRemove = (req, res) => {
+    this.model.findOneAndRemove({ videoId: req.params.id }, (err) => {
+      if (err) {
+        return console.error(err);
+      } else {
+        res.sendStatus(200);
+      }
+    });
   }
 }
