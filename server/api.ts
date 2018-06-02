@@ -3,9 +3,7 @@ import * as express from "express";
 import * as morgan from "morgan";
 import * as mongoose from "mongoose";
 import * as fs from "fs";
-import TelegrafApp from "./app/telegram/telegramapp";
-import TelegramBot from "./app/telegram/telegrambot";
-const config = require("../config/config.json");
+const config = require("../config/config_local.json");
 export const privateKey = fs.readFileSync(__dirname + "/../config/private.key");
 export const publicKey = fs.readFileSync(__dirname + "/../config/public.key");
 
@@ -13,10 +11,6 @@ import setRoutes from "./app/routes";
 
 const app = express();
 app.set("port", (config.port || 3000));
-
-const bot = new TelegramBot(TelegrafApp);
-
-app.use(TelegrafApp.webhookCallback("/" + config.TELEGRAM_WEBHOOK.SECRET_PATH));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -55,6 +49,5 @@ export { app };
 
 /*
   TODO:
-  prepare to move on github
   add models: forms, permissions, roles
 */
