@@ -1,4 +1,9 @@
-import * as jwt from "jsonwebtoken";
+/*
+ * Created on Sat Jul 28 2018
+ * Copyright © 2017-2018 Mikhail K. (iSm1le)
+ * Licensed under the Apache License, Version 2.0
+ */
+// import * as jwt from "jsonwebtoken";
 import YRV from "../models/yrv";
 import BaseCtrl from "./base";
 

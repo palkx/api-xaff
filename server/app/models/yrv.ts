@@ -1,4 +1,9 @@
-import * as bcrypt from "bcryptjs";
+/*
+ * Created on Sat Jul 28 2018
+ * Copyright © 2017-2018 Mikhail K. (iSm1le)
+ * Licensed under the Apache License, Version 2.0
+ */
+// import * as bcrypt from "bcryptjs";
 import * as mongoose from "mongoose";
 
 const yrvSchema = new mongoose.Schema({

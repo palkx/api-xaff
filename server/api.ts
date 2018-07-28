@@ -1,3 +1,8 @@
+/*
+ * Created on Sat Jul 28 2018
+ * Copyright © 2017-2018 Mikhail K. (iSm1le)
+ * Licensed under the Apache License, Version 2.0
+ */
 import * as bodyParser from "body-parser";
 import * as express from "express";
 import * as morgan from "morgan";
