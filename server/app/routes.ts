@@ -1,5 +1,10 @@
+/*
+ * Created on Sat Jul 28 2018
+ * Copyright © 2017-2018 Mikhail K. (iSm1le)
+ * Licensed under the Apache License, Version 2.0
+ */
 import * as express from "express";
-import * as request from "request-promise";
+// import * as request from "request-promise";
 import UserCtrl from "./controllers/user";
 import YrvCtrl from "./controllers/yrv";
 import * as jwt from "jsonwebtoken";

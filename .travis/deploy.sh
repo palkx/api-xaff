@@ -10,8 +10,8 @@ ssh deploy@$IP -p $PORT <<EOF
   mkdir $TEMP_DEPLOY_DIR
   cd $TEMP_DEPLOY_DIR
   git clone -b production https://github.com/iSm1le/api-xaff.git .
-  yarn
-  yarn run build-prod
+  npm i
+  npm run build-prod
   rm -rf $DEPLOY_DIR/dist/*
   rm -rf $DEPLOY_DIR/config/*
   cp -R -f dist/* $DEPLOY_DIR/dist/
