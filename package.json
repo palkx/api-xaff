@@ -39,7 +39,7 @@
     "@types/bcryptjs": "^2.4.1",
     "@types/body-parser": "^1.17.0",
     "@types/express": "^4.16.0",
-    "@types/express-rate-limit": "^2.9.3",
+    "@types/express-rate-limit": "^3.3.0",
     "@types/jsonwebtoken": "^7.2.8",
     "@types/morgan": "^1.7.35",
     "@types/node": "^10.5.4",
